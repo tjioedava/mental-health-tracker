@@ -1,0 +1,45 @@
+{% extends 'base.html' %}    
+    
+{% block header %}
+    <h1>Mental Health Tracker</h1>
+{% endblock header %}
+
+{% block content %}
+    <h5>NPM: </h5>
+    <p>{{ npm }}</p>
+    <h5>Name: </h5>
+    <p>{{ name }}</p>
+    <h5>Class: </h5>
+    <p>{{ class }}</p> 
+
+    <hr>
+
+    {% if not mood_entries %}
+        <p>No mood entry has been created</p>
+    {% else %}
+    <table>
+        <tr>
+            <td><h3>Mood Entries:</h5></td>
+        </tr>
+        <tr>
+            <td>Mood</td>
+            <td>Time</td>
+            <td>Feelings</td>
+            <td>Mood Intensity</td>
+        </tr>
+        
+        {% for mood_entry in mood_entries %}
+            <tr>
+                <td>{{ mood_entry.mood }}</td>
+                <td>{{ mood_entry.time }}</td>
+                <td>{{ mood_entry.feelings }}</td>
+                <td>{{ mood_entry.mood_intensity }}</td>
+            </tr>
+        {% endfor %}
+    </table>
+
+    {% endif %}
+    
+    <a href="{% url 'main:create-mood-entry' %}">Create Mood Entry</a>
+{% endblock content %}
+    
