@@ -1,26 +1,6 @@
-int length = string.length();
-//        int sum = 0;
-//
-//        for(int i = 0; i < length; i++){
-//            char c = string.charAt(i);
-//
-//            switch(c){
-//                case 's':
-//                    sNodes.add(0);
-//                    break;
-//                case 'd':
-//                    int sCount = sNodes.size();
-//
-//                    //increment each s node
-//                    for(int j = 0; j < sCount; j++){
-//                        sNodes.set(j, sNodes.get(j) + 1);
-//                    }
-//                    break;
-//                case 'a':
-//                    for(Integer sNode : sNodes){
-//                        sum += sNode;
-//                    }
-//            }
-//        }
-//        out.println(Arrays.toString(sNodes.toArray()));
-//        out.println(sum);
+django
+gunicorn
+whitenoise
+psycopg2-binary
+requests
+urllib3
