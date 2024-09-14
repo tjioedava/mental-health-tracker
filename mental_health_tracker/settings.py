@@ -27,8 +27,7 @@ DEBUG = True
 
 ALLOWED_HOSTS = ['localhost', 
                  '127.0.0.1', 
-                 'http://dava-hannas-epsycho.pbp.cs.ui.ac.id',
-                 'https://dava-hannas-epsycho.pbp.cs.ui.ac.id']
+                 'dava-hannas-epsycho.pbp.cs.ui.ac.id']
 
 # Application definition
 
