@@ -25,7 +25,10 @@ SECRET_KEY = 'django-insecure-#rji9jj22mc=(aka=!=zf3v08+shqr3_v_+n$7sezryb-1$vm$
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['localhost', '127.0.0.1', 'dava-hannas-mhtproject.pbp.cs.ui.ac.id']
+ALLOWED_HOSTS = ['localhost', 
+                 '127.0.0.1', 
+                 'http://dava-hannas-epsycho.pbp.cs.ui.ac.id',
+                 'https://dava-hannas-epsycho.pbp.cs.ui.ac.id']
 
 # Application definition
 
@@ -122,4 +125,7 @@ STATIC_URL = 'static/'
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
-CSRF_TRUSTED_ORIGINS = ["http://localhost","http://127.0.0.1","http://dava-hannas-myfirstdjangoweb.pbp.cs.ui.ac.id", "https://dava-hannas-myfirstdjangoweb.pbp.cs.ui.ac.id"]
+CSRF_TRUSTED_ORIGINS = ["http://localhost",
+                        "http://127.0.0.1",
+                        "http://dava-hannas-epsycho.pbp.cs.ui.ac.id", 
+                        "https://dava-hannas-epsycho.pbp.cs.ui.ac.id"]
