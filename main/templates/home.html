@@ -14,6 +14,10 @@
 
     <hr>
 
+    <h5>Last login: {{ last_login }}</h5>
+
+    <hr>
+
     {% if not mood_entries %}
         <p>No mood entry has been created</p>
     {% else %}
@@ -40,6 +44,19 @@
 
     {% endif %}
     
-    <a href="{% url 'main:create-mood-entry' %}">Create Mood Entry</a>
+    <button class="hyperlink" data-href="{% url 'main:create-mood-entry' %}">Create mood entry</button>
+    <button class="hyperlink" data-href="{% url 'main:logout-user' %}">Log out</button>
 {% endblock content %}
+
+{% block script %}
+    <script>
+        let buttons = document.querySelectorAll('.hyperlink');
+        buttons.forEach(function(button){
+            let dataHref = button.getAttribute('data-href')    
+            button.addEventListener('click', function(){
+                window.location.href = dataHref;
+            })
+        })
+    </script>
+{% endblock script %}
     

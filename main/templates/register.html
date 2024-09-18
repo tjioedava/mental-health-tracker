@@ -1,0 +1,20 @@
+{% extends 'base.html' %}
+
+{% block header %}
+    <h1>Register</h1>
+    <hr>
+{% endblock header %}
+
+{% block content %}
+    <form method="POST">
+        {% csrf_token %}
+        <table>
+            {{ form.as_table }}
+            <tr>
+                <td></td>
+                <td><button type="submit">Register</button></td>
+            </tr>
+        </table>
+        Already have an account? Log in <a href="{% url 'main:login-user' %}">here</a>!
+    </form>
+{% endblock content %}

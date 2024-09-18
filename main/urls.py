@@ -12,4 +12,7 @@ urlpatterns = [
     path('show-json', show_json, name='show-json'),
     path('show-xml/<str:id>', show_xml_by_id, name='show-xml-by-id'),
     path('show-json/<str:id>', show_json_by_id, name='show-json-by-id'),
+    path('register', register, name='register'),
+    path('login-user', login_user, name='login-user'),
+    path('logout-user', logout_user, name='logout-user')
 ]
