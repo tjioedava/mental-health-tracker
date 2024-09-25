@@ -1,44 +1,19 @@
 {% load static %}
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <script src="https://cdn.tailwindcss.com"></script>
-    <link rel="stylesheet" href="{% static 'css/global.css' %}"/>
-
-    <title>Mental Health Tracker</title>
-
-    {% block meta %}
-    {% endblock meta %}
-
-</head>
-<body>
-    <header>
-        {% block header %}
-        {% endblock header %}
-    </header>
-
-    <main>
-        {% if messages %}
-            {% for message in messages %}
-                <ul>
-                    <li>{{ message }}</li>
-                </ul>
-            {% endfor %}
-        {% endif %}
-
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        {% block meta %} {% endblock meta %}
+        <script src="https://cdn.tailwindcss.com"></script>
+        <link rel="stylesheet" href="{% static 'css/global.css' %}"/>
+      </head>
+    <body>
         <!--embed content-->
         {% block content %}
         {% endblock content %}
-    </main>
 
-    <footer>
-        {% block footer %}
-        {% endblock footer %}
-    </footer>
-
-    {% block script %}
-    {% endblock script %}
-</body>
+        {% block script %}
+        {% endblock script %}
+    </body>
 </html>

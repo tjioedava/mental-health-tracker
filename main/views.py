@@ -16,6 +16,8 @@ import datetime
 def home(request):
     context = {
         'username': request.user.username,
+        'npm': '2306217071',
+        'class': 'PBP E',
         'mood_entries': MoodEntry.objects.filter(user=request.user),
         'last_login': request.COOKIES.get('last_log_in', 'Untracked')
     }
@@ -32,9 +34,9 @@ def create_mood_entry(request):
         mood_entry.save()
         return redirect('main:home')
 
-    context = {'form': form,}
-
-    return render(request, 'create-mood-entry.html', context)
+    return render(request, 'create-mood-entry.html', {
+        'form': form,
+    })
 
 @login_required(login_url='/log-in')
 def edit_mood_entry(request, id):
