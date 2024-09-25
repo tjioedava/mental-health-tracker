@@ -30,6 +30,7 @@
             <td>Time</td>
             <td>Feelings</td>
             <td>Mood Intensity</td>
+            <td></td>
         </tr>
         
         {% for mood_entry in mood_entries %}
@@ -38,6 +39,7 @@
                 <td>{{ mood_entry.time }}</td>
                 <td>{{ mood_entry.feelings }}</td>
                 <td>{{ mood_entry.mood_intensity }}</td>
+                <td><a href="{% url 'main:edit-mood-entry' mood_entry.pk %}"><button>Edit</button></a></td>
             </tr>
         {% endfor %}
     </table>
@@ -45,7 +47,7 @@
     {% endif %}
     
     <button class="hyperlink" data-href="{% url 'main:create-mood-entry' %}">Create mood entry</button>
-    <button class="hyperlink" data-href="{% url 'main:logout-user' %}">Log out</button>
+    <button class="hyperlink" data-href="{% url 'main:log-out' %}">Log out</button>
 {% endblock content %}
 
 {% block script %}

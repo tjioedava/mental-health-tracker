@@ -11,17 +11,17 @@ from .models import MoodEntry
 
 import datetime
 
-@login_required(login_url='/login-user')
+@login_required(login_url='/log-in')
 def home(request):
     context = {
         'name': request.user.username,
         'mood_entries': MoodEntry.objects.filter(user=request.user),
-        'last_login': request.COOKIES['last_login']
+        'last_login': request.COOKIES.get('last_log_in', 'Untracked')
     }
 
     return render(request, 'home.html', context)
 
-@login_required(login_url='/login-user')
+@login_required(login_url='/log-in')
 def create_mood_entry(request):
     form = MoodEntryForm(request.POST or None)
 
@@ -35,7 +35,7 @@ def create_mood_entry(request):
 
     return render(request, 'create-mood-entry.html', context)
 
-@login_required(login_url='/login-user')
+@login_required(login_url='/log-in')
 def edit_mood_entry(request, id):
     mood = MoodEntry.objects.get(pk=id)
 
@@ -51,22 +51,22 @@ def edit_mood_entry(request, id):
         'form': form,
     })
 
-@login_required(login_url='/login-user')
+@login_required(login_url='/log-in')
 def show_xml(request):
     mood_entries = MoodEntry.objects.filter(user=request.user)
     return HttpResponse(serializers.serialize('xml', mood_entries), content_type='application/xml')
 
-@login_required(login_url='/login-user')
+@login_required(login_url='/log-in')
 def show_json(request):
     mood_entries = MoodEntry.objects.filter(user=request.user)
     return HttpResponse(serializers.serialize('json', mood_entries), content_type='application/json')
 
-@login_required(login_url='/login-user')
+@login_required(login_url='/log-in')
 def show_xml_by_id(request, id):
     mood_entry = MoodEntry.objects.filter(user=request.user, pk = id)
     return HttpResponse(serializers.serialize('xml', mood_entry), content_type='application/xml')
 
-@login_required(login_url='/login-user')
+@login_required(login_url='/log-in')
 def show_json_by_id(request, id):
     mood_entry = MoodEntry.objects.filter(user=request.user, pk = id)
     return HttpResponse(serializers.serialize('json', mood_entry), content_type='application/json')
@@ -84,7 +84,10 @@ def register(request):
         'form': form,
     })
 
-def login_user(request):
+def log_in(request):
+
+    if request.user.is_authenticated:
+        return redirect('main:home')
 
     if request.method == 'POST':
         form = AuthenticationForm(data=request.POST)
@@ -92,21 +95,21 @@ def login_user(request):
             user = form.get_user()
             login(request, user)
             response = HttpResponseRedirect(request.GET.get('next', reverse('main:home')))
-            response.set_cookie('last_login', str(datetime.datetime.now()), 60 * 60 * 24 * 7) #set for two weeks in parallel of session ID cookie
+            response.set_cookie('last_log_in', str(datetime.datetime.now()), 60 * 60 * 24 * 7) #set for two weeks in parallel of session ID cookie
             return response
         messages.error(request, 'Incorrect credentials')
 
     else:
         form = AuthenticationForm(request)
     
-    return render(request, 'login.html', {
+    return render(request, 'log-in.html', {
         'form': form,
     })
     
-def logout_user(request):
+def log_out(request):
     logout(request)
-    response = HttpResponseRedirect(reverse('main:login-user'))
-    response.delete_cookie('last_login')
+    response = redirect('main:log-in')
+    response.delete_cookie('last_log_in')
     return response
         
     
