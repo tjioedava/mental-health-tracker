@@ -31,6 +31,7 @@
             <td>Feelings</td>
             <td>Mood Intensity</td>
             <td></td>
+            <td></td>
         </tr>
         
         {% for mood_entry in mood_entries %}
@@ -40,6 +41,12 @@
                 <td>{{ mood_entry.feelings }}</td>
                 <td>{{ mood_entry.mood_intensity }}</td>
                 <td><a href="{% url 'main:edit-mood-entry' mood_entry.pk %}"><button>Edit</button></a></td>
+                <td>
+                    <form action="{% url 'main:delete-mood-entry' mood_entry.pk %}" method="POST">
+                        {% csrf_token %}
+                        <button type="submit">Delete</button>
+                    </form>
+                </td>
             </tr>
         {% endfor %}
     </table>

@@ -1,5 +1,6 @@
 from django.shortcuts import render, redirect
-from django.http import HttpResponse, HttpResponseRedirect
+from django.http import HttpResponse, HttpResponseRedirect, HttpResponseBadRequest
+from django.views.decorators.http import require_http_methods
 from django.urls import reverse
 from django.core import serializers
 from django.contrib.auth.forms import UserCreationForm, AuthenticationForm
@@ -37,8 +38,10 @@ def create_mood_entry(request):
 
 @login_required(login_url='/log-in')
 def edit_mood_entry(request, id):
-    mood = MoodEntry.objects.get(pk=id)
-
+    mood = MoodEntry.objects.filter(user=request.user, pk=id)
+    if len(mood) == 0:
+        return HttpResponseBadRequest()
+    mood = mood[0]
     form = MoodEntryForm(request.POST or None, instance=mood)
 
     if request.method == 'POST':
@@ -52,6 +55,18 @@ def edit_mood_entry(request, id):
     })
 
 @login_required(login_url='/log-in')
+@require_http_methods(['POST',])
+def delete_mood_entry(request, id):
+    mood = MoodEntry.objects.filter(user=request.user, pk=id)
+    if len(mood) == 0:
+        return HttpResponseBadRequest()
+    mood = mood[0]
+    mood.delete()
+
+    return redirect('main:home')
+
+
+@login_required(login_url='/log-in')
 def show_xml(request):
     mood_entries = MoodEntry.objects.filter(user=request.user)
     return HttpResponse(serializers.serialize('xml', mood_entries), content_type='application/xml')
@@ -63,12 +78,12 @@ def show_json(request):
 
 @login_required(login_url='/log-in')
 def show_xml_by_id(request, id):
-    mood_entry = MoodEntry.objects.filter(user=request.user, pk = id)
+    mood_entry = MoodEntry.objects.filter(user=request.user, pk=id)
     return HttpResponse(serializers.serialize('xml', mood_entry), content_type='application/xml')
 
 @login_required(login_url='/log-in')
 def show_json_by_id(request, id):
-    mood_entry = MoodEntry.objects.filter(user=request.user, pk = id)
+    mood_entry = MoodEntry.objects.filter(user=request.user, pk=id)
     return HttpResponse(serializers.serialize('json', mood_entry), content_type='application/json')
 
 def register(request):
@@ -78,7 +93,7 @@ def register(request):
         if form.is_valid():
             form.save()
             messages.success(request, 'Successfully registered')
-            return redirect('main:login-user')
+            return redirect('main:log-in')
 
     return render(request, 'register.html', {
         'form': form,
