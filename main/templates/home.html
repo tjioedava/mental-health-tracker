@@ -5,17 +5,10 @@
 {% endblock header %}
 
 {% block content %}
-    <h5>NPM: </h5>
-    <p>{{ npm }}</p>
-    <h5>Name: </h5>
-    <p>{{ name }}</p>
-    <h5>Class: </h5>
-    <p>{{ class }}</p> 
 
-    <hr>
-
-    <h5>Last login: {{ last_login }}</h5>
-
+    {% include 'navbar.html' %}
+    <p>Welcome, {{ username }}</p>
+    <p>Last login: {{ last_login }}</h5>
     <hr>
 
     {% if not mood_entries %}

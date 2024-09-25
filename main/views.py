@@ -15,7 +15,7 @@ import datetime
 @login_required(login_url='/log-in')
 def home(request):
     context = {
-        'name': request.user.username,
+        'username': request.user.username,
         'mood_entries': MoodEntry.objects.filter(user=request.user),
         'last_login': request.COOKIES.get('last_log_in', 'Untracked')
     }

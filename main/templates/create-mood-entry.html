@@ -6,16 +6,16 @@
 {% endblock header %}
 
 {% block content %}
-
-<form method="POST">
-    {% csrf_token %}
-    <table>
-        {{ form.as_table }}
-        <tr>
-            <td></td>
-            <td><button type="submit">Create Mood Entry</button></td>
-        </tr>
-    </table>
-</form>
+    {% include 'navbar.html' %}
+    <form method="POST">
+        {% csrf_token %}
+        <table>
+            {{ form.as_table }}
+            <tr>
+                <td></td>
+                <td><button type="submit">Create Mood Entry</button></td>
+            </tr>
+        </table>
+    </form>
 
 {% endblock content %}
