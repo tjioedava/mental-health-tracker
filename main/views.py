@@ -35,18 +35,22 @@ def create_mood_entry(request):
 
     return render(request, 'create-mood-entry.html', context)
 
+@login_required(login_url='/login-user')
 def show_xml(request):
     mood_entries = MoodEntry.objects.all()
     return HttpResponse(serializers.serialize('xml', mood_entries), content_type='application/xml')
 
+@login_required(login_url='/login-user')
 def show_json(request):
     mood_entries = MoodEntry.objects.all()
     return HttpResponse(serializers.serialize('json', mood_entries), content_type='application/json')
 
+@login_required(login_url='/login-user')
 def show_xml_by_id(request, id):
     mood_entry = MoodEntry.objects.filter(pk = id)
     return HttpResponse(serializers.serialize('xml', mood_entry), content_type='application/xml')
 
+@login_required(login_url='/login-user')
 def show_json_by_id(request, id):
     mood_entry = MoodEntry.objects.filter(pk = id)
     return HttpResponse(serializers.serialize('json', mood_entry), content_type='application/json')
@@ -71,7 +75,7 @@ def login_user(request):
         if form.is_valid():
             user = form.get_user()
             login(request, user)
-            response = HttpResponseRedirect(reverse('main:home'))
+            response = HttpResponseRedirect(request.GET.get('next', reverse('main:home')))
             response.set_cookie('last_login', str(datetime.datetime.now()))
             return response
         messages.error(request, 'Incorrect username or password')

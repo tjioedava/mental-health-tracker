@@ -12,3 +12,7 @@ class MoodEntry(models.Model):
 
     #readonly construct property
     is_mood_strong = property(lambda self: self.mood_intensity > 5)
+
+    class Meta:
+        verbose_name_plural = 'Mood Entries'
+        verbose_name = 'Mood Entry'
