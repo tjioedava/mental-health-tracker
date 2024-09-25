@@ -36,6 +36,22 @@ def create_mood_entry(request):
     return render(request, 'create-mood-entry.html', context)
 
 @login_required(login_url='/login-user')
+def edit_mood_entry(request, id):
+    mood = MoodEntry.objects.get(pk=id)
+
+    form = MoodEntryForm(request.POST or None, instance=mood)
+
+    if request.method == 'POST':
+        if form.is_valid():
+            form.save()
+            return redirect('main:home')
+        messages.error(request, 'Invalid information about mood entry')
+
+    return render(request, 'edit-mood-entry.html', {
+        'form': form,
+    })
+
+@login_required(login_url='/login-user')
 def show_xml(request):
     mood_entries = MoodEntry.objects.filter(user=request.user)
     return HttpResponse(serializers.serialize('xml', mood_entries), content_type='application/xml')
@@ -62,7 +78,7 @@ def register(request):
         if form.is_valid():
             form.save()
             messages.success(request, 'Successfully registered')
-            return redirect('main:home')
+            return redirect('main:login-user')
 
     return render(request, 'register.html', {
         'form': form,
@@ -78,7 +94,7 @@ def login_user(request):
             response = HttpResponseRedirect(request.GET.get('next', reverse('main:home')))
             response.set_cookie('last_login', str(datetime.datetime.now()), 60 * 60 * 24 * 7) #set for two weeks in parallel of session ID cookie
             return response
-        messages.error(request, 'Incorrect username or password')
+        messages.error(request, 'Incorrect credentials')
 
     else:
         form = AuthenticationForm(request)
