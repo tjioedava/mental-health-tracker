@@ -14,15 +14,21 @@ import datetime
 
 @login_required(login_url='/log-in')
 def home(request):
-    context = {
+
+    undefined_message = 'Untracked'
+    last_log_in = request.COOKIES.get('last_log_in', undefined_message)
+
+    if last_log_in != undefined_message:
+        point_index = last_log_in.find('.')
+        last_log_in = last_log_in[0: point_index]
+
+    return render(request, 'home.html', {
         'username': request.user.username,
         'npm': '2306217071',
         'class': 'PBP E',
         'mood_entries': MoodEntry.objects.filter(user=request.user),
-        'last_login': request.COOKIES.get('last_log_in', 'Untracked')
-    }
-
-    return render(request, 'home.html', context)
+        'last_log_in': last_log_in,
+    })
 
 @login_required(login_url='/log-in')
 def create_mood_entry(request):
@@ -66,7 +72,6 @@ def delete_mood_entry(request, id):
     mood.delete()
 
     return redirect('main:home')
-
 
 @login_required(login_url='/log-in')
 def show_xml(request):
@@ -123,6 +128,7 @@ def log_in(request):
         'form': form,
     })
     
+@require_http_methods(['POST',])
 def log_out(request):
     logout(request)
     response = redirect('main:log-in')

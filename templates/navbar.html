@@ -7,12 +7,15 @@
       <div class="hidden md:flex items-center">
         {% if user.is_authenticated %}
           <span class="text-gray-300 mr-4">Welcome, {{ user.username }}</span>
-          <a href="{% url 'main:log-out' %}" class="text-center bg-red-500 hover:bg-red-600 text-white font-bold py-2 px-4 rounded transition duration-300">
-            Logout
-          </a>
+          <form method="POST" action="{% url 'main:log-out' %}">
+            {% csrf_token %}
+            <button class="text-center bg-red-500 hover:bg-red-600 text-white font-bold py-2 px-4 rounded transition duration-300">
+              Log Out
+            </button>
+          </form>
         {% else %}
           <a href="{% url 'main:log-in' %}" class="text-center bg-blue-500 hover:bg-blue-600 text-white font-bold py-2 px-4 rounded transition duration-300 mr-2">
-            Login
+            Log In
           </a>
           <a href="{% url 'main:register' %}" class="text-center bg-green-500 hover:bg-green-600 text-white font-bold py-2 px-4 rounded transition duration-300">
             Register
@@ -33,12 +36,15 @@
     <div class="pt-2 pb-3 space-y-1 mx-auto">
       {% if user.is_authenticated %}
         <span class="block text-gray-300 px-3 py-2">Welcome, {{ user.username }}</span>
-        <a href="{% url 'main:log-out' %}" class="block text-center bg-red-500 hover:bg-red-600 text-white font-bold py-2 px-4 rounded transition duration-300">
-          Logout
-        </a>
+        <form method="POST" action="{% url 'main:log-out' %}">
+          {% csrf_token %}
+          <button class="block text-center bg-red-500 hover:bg-red-600 text-white font-bold py-2 px-4 rounded transition duration-300">
+            Log Out
+          </button>
+        </form>
       {% else %}
         <a href="{% url 'main:log-in' %}" class="block text-center bg-blue-500 hover:bg-blue-600 text-white font-bold py-2 px-4 rounded transition duration-300 mb-2">
-          Login
+          Log In
         </a>
         <a href="{% url 'main:register' %}" class="block text-center bg-green-500 hover:bg-green-600 text-white font-bold py-2 px-4 rounded transition duration-300">
           Register
