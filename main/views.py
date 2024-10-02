@@ -1,12 +1,14 @@
 from django.shortcuts import render, redirect
 from django.http import HttpResponse, HttpResponseRedirect, HttpResponseBadRequest
 from django.views.decorators.http import require_http_methods
+from django.views.decorators.csrf import csrf_exempt
 from django.urls import reverse
 from django.core import serializers
 from django.contrib.auth.forms import UserCreationForm, AuthenticationForm
 from django.contrib.auth import login, logout
 from django.contrib.auth.decorators import login_required
 from django.contrib import messages
+from django.utils.html import strip_tags
 from .forms import MoodEntryForm
 from .models import MoodEntry
 
@@ -26,7 +28,6 @@ def home(request):
         'username': request.user.username,
         'npm': '2306217071',
         'class': 'PBP E',
-        'mood_entries': MoodEntry.objects.filter(user=request.user),
         'last_log_in': last_log_in,
     })
 
@@ -43,6 +44,23 @@ def create_mood_entry(request):
     return render(request, 'create-mood-entry.html', {
         'form': form,
     })
+
+@csrf_exempt
+@require_http_methods(['POST',])
+def create_mood_entry_ajax(request):
+    mood = strip_tags(request.POST.get('mood'))
+    feelings = strip_tags(request.POST.get('feelings'))
+    mood_intensity = request.POST.get('mood-intensity')
+
+    new_mood = MoodEntry(
+        user=request.user,
+        mood=mood,
+        feelings=feelings,
+        mood_intensity=mood_intensity,
+    )
+    new_mood.save()
+
+    return HttpResponse(b'CREATED', status=201)
 
 @login_required(login_url='/log-in')
 def edit_mood_entry(request, id):
@@ -134,5 +152,4 @@ def log_out(request):
     response = redirect('main:log-in')
     response.delete_cookie('last_log_in')
     return response
-        
     

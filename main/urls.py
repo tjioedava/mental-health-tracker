@@ -8,6 +8,7 @@ urlpatterns = [
     path('', lambda request: redirect('main:home')),
     path('home', home, name='home'),
     path('create-mood-entry', create_mood_entry, name='create-mood-entry'),
+    path('create-mood-entry-ajax', create_mood_entry_ajax, name='create-mood-entry-ajax'),
     path('edit-mood-entry/<uuid:id>', edit_mood_entry, name='edit-mood-entry'),
     path('delete-mood-entry/<uuid:id>', delete_mood_entry, name='delete-mood-entry'),
     path('show-xml', show_xml, name='show-xml'),
